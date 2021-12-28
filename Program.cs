@@ -52,8 +52,15 @@ namespace Practicum_CSharp.Console_.NET_
                 {
                     Console.Write("\n\n\tWYBRANO: 'B' - Czy podane liczby są liczbami zaprzyjaźnionymi\n");
 
+                    int mdPierwszaLiczba;
                     Console.Write("\n\tPodaj pierwszą liczbę: ");
-                    int mdPierwszaLiczba = int.Parse(Console.ReadLine());
+
+                    while (!int.TryParse(Console.ReadLine(), out mdPierwszaLiczba))
+                    {   
+                        Console.WriteLine("\n\tERROR: w zapisie wystąpił niedozwolony znak!");
+                        Console.Write("\n\tPodaj pierwszą liczbę ponownie: ");
+                    }
+
 
                     Console.Write($"\n\tPodźielniki liczby '{mdPierwszaLiczba}':");
 
@@ -62,8 +69,15 @@ namespace Practicum_CSharp.Console_.NET_
                     Console.Write($"\n\n\tSuma podźielników: {mdSuma1};");
                     Console.Write("\n\t________________________");
 
+                    int mdDrugaLiczba;
                     Console.Write("\n\n\tPodaj drugą liczbę: ");
-                    int mdDrugaLiczba = int.Parse(Console.ReadLine());
+
+                    while (!int.TryParse(Console.ReadLine(), out mdDrugaLiczba) || mdPierwszaLiczba == mdDrugaLiczba)
+                    {   
+                        Console.WriteLine("\n\tERROR: w zapisie wystąpił niedozwolony znak!");
+                        Console.WriteLine("\n\tUWAźAJ: liczby nie mogą być równe!");
+                        Console.Write("\n\tPodaj drugą liczbę ponownie: ");
+                    }
 
                     Console.Write($"\n\tPodźielniki liczby '{mdDrugaLiczba}':");
 
@@ -76,14 +90,13 @@ namespace Practicum_CSharp.Console_.NET_
 
                     if (mdSuma1 == mdSuma2)
                     {
-                        Console.Write($"\n\n\tPoniewaź sumy podźielników są równe: ({mdSuma1} = {mdSuma2}), więc");
+                        Console.Write($"\n\n\tPoniewaź sumy podźielników są równe: ({mdSuma1} = {mdSuma2}),");
                         Console.Write($"\n\tliczby {mdPierwszaLiczba} i {mdDrugaLiczba} są liczbami zaprzyjaźnionymi!\n");
                     } else
                     {
-                        Console.Write($"\n\n\tPoniewaź sumy podźielników NIE są równe: ({mdSuma1} != {mdSuma2}), więc");
+                        Console.Write($"\n\n\tPoniewaź sumy podźielników NIE są równe: ({mdSuma1} != {mdSuma2}),");
                         Console.Write($"\n\tliczby {mdPierwszaLiczba} i {mdDrugaLiczba} NIE są liczbami zaprzyjaźnionymi!\n");
                     }
-
                 }
 
                 static int mdSumaPodzielnikow(int num)
