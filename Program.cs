@@ -19,6 +19,7 @@ namespace Practicum_CSharp.Console_.NET_
                 Console.WriteLine("\n\t\t MENU \n");
                 Console.WriteLine("\n\t\t A: Liczba doskonała");
                 Console.WriteLine("\n\t\t B: Liczby zaprzyjaźnione");
+                Console.WriteLine("\n\t\t C: Liczba Armstronga");
                 Console.WriteLine("\n\t\t X: Wyjście z programu");
 
                 //Podpowiedz dla uzytkownika
@@ -39,9 +40,6 @@ namespace Practicum_CSharp.Console_.NET_
                         Console.WriteLine("\n\tERROR: niedozwolony znak! Pamietaj ze liczba nusi byc wiencej zera!");
                         Console.Write("\n\tPodaj ponownie liczbę dla sprawdzania: ");
                     }
-
-                    //Console.WriteLine("\n\tPodaj liczbę dla sprawdzania: ");
-                    //mdNumber = Convert.ToInt32(Console.ReadLine());
 
                     if (mdCheckNumber(mdNumber)) Console.WriteLine($"\n\tPodana liczba {mdNumber} jest idealna!"); else Console.WriteLine($"\n\tPodana liczba {mdNumber} NIE jest idealna!");
                     Console.Write("\n\n\tNaciśnij dowolny klawisz . . . ");
@@ -97,6 +95,34 @@ namespace Practicum_CSharp.Console_.NET_
                         Console.Write($"\n\n\tPoniewaź sumy podźielników NIE są równe: ({mdSuma1} != {mdSuma2}),");
                         Console.Write($"\n\tliczby {mdPierwszaLiczba} i {mdDrugaLiczba} NIE są liczbami zaprzyjaźnionymi!\n");
                     }
+                }
+
+                if (mdWybranaFunkcjonalność.Key == ConsoleKey.C)
+                {
+                    int mdPierwszaLiczba;
+                    Console.Write("\n\tPodaj liczbę: ");
+
+                    while (!int.TryParse(Console.ReadLine(), out mdPierwszaLiczba))
+                    {
+                        Console.WriteLine("\n\tERROR!!!");
+                    }
+
+                    int[] result = GetIntArray(mdPierwszaLiczba);
+
+                    Console.WriteLine(result); 
+                }
+
+
+                int[] GetIntArray(int num)
+                {
+                    List<int> listOfInts = new List<int>();
+                    while (num > 0)
+                    {
+                        listOfInts.Add(num % 10);
+                        num = num / 10;
+                    }
+                    listOfInts.Reverse();
+                    return listOfInts.ToArray();
                 }
 
                 static int mdSumaPodzielnikow(int num)
