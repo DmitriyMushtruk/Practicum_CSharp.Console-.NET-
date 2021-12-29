@@ -20,6 +20,7 @@ namespace Practicum_CSharp.Console_.NET_
                 Console.WriteLine("\n\t\t A: Liczba doskonała");
                 Console.WriteLine("\n\t\t B: Liczby zaprzyjaźnione");
                 Console.WriteLine("\n\t\t C: Liczba Armstronga");
+                Console.WriteLine("\n\t\t D: Sumy podzielników podanych liczb");
                 Console.WriteLine("\n\t\t X: Wyjście z programu");
 
                 //Podpowiedz dla uzytkownika
@@ -60,11 +61,11 @@ namespace Practicum_CSharp.Console_.NET_
                     }
 
 
-                    Console.Write($"\n\tPodźielniki liczby '{mdPierwszaLiczba}':");
+                    Console.Write($"\n\t");
 
                     int mdSuma1 = mdSumaPodzielnikow(mdPierwszaLiczba);
 
-                    Console.Write($"\n\n\tSuma podźielników: {mdSuma1};");
+                    Console.Write($"\n\tSuma podźielników: {mdSuma1};");
                     Console.Write("\n\t________________________");
 
                     int mdDrugaLiczba;
@@ -73,15 +74,15 @@ namespace Practicum_CSharp.Console_.NET_
                     while (!int.TryParse(Console.ReadLine(), out mdDrugaLiczba) || mdPierwszaLiczba == mdDrugaLiczba)
                     {   
                         Console.WriteLine("\n\tERROR: w zapisie wystąpił niedozwolony znak!");
-                        Console.WriteLine("\n\tUWAźAJ: liczby nie mogą być równe!");
+                        Console.WriteLine("\n\tUWAZAJ: liczby nie mogą być równe!");
                         Console.Write("\n\tPodaj drugą liczbę ponownie: ");
                     }
 
-                    Console.Write($"\n\tPodźielniki liczby '{mdDrugaLiczba}':");
+                    Console.Write($"\n\t");
 
                     int mdSuma2 = mdSumaPodzielnikow(mdDrugaLiczba);
 
-                    Console.Write($"\n\n\tSuma podźielników: {mdSuma2};");
+                    Console.Write($"\n\tSuma podźielników: {mdSuma2};");
                     Console.Write("\n\t________________________");
 
                     Console.Write("\n\n\tWYNNIK:");
@@ -99,35 +100,110 @@ namespace Practicum_CSharp.Console_.NET_
 
                 if (mdWybranaFunkcjonalność.Key == ConsoleKey.C)
                 {
-                    int mdPierwszaLiczba;
-                    Console.Write("\n\tPodaj liczbę: ");
+                    Console.Write("\n\n\tWYBRANO: 'C' - Czy podane liczba jest liczba Armstronga\n");
 
-                    while (!int.TryParse(Console.ReadLine(), out mdPierwszaLiczba))
+                    uint mdLiczbaArmstronga;
+                    Console.Write("\n\tPodaj liczbę dla sprawdzania: ");
+
+                    while (!uint.TryParse(Console.ReadLine(), out mdLiczbaArmstronga))
                     {
                         Console.WriteLine("\n\tERROR!!!");
                     }
 
-                    int[] result = GetIntArray(mdPierwszaLiczba);
+                    if (IsArmstrongNumber(mdLiczbaArmstronga))
+                    {
+                        Console.WriteLine($"\n\tPodana liczba - '{mdLiczbaArmstronga}' JEST liczbą Armstronga!");
+                    } else
+                    {
+                        Console.WriteLine($"\n\tPodana liczba - '{mdLiczbaArmstronga}' NIE JEST liczbą Armstronga!");
+                    }
 
-                    Console.WriteLine(result); 
                 }
 
-
-                int[] GetIntArray(int num)
+                if (mdWybranaFunkcjonalność.Key == ConsoleKey.D)
                 {
-                    List<int> listOfInts = new List<int>();
-                    while (num > 0)
+                    Console.Write("\n\n\tWYBRANO: 'D' - Sumy podzielników podanych liczb\n");
+
+                    Console.Write("\n\n\tPodaj ilisc elementow:\t");
+
+                    int iloscElementow = int.Parse(Console.ReadLine());
+
+                    int[,] tablicaElementow = new int[iloscElementow, 2];
+
+                    for (int i = 0; i < tablicaElementow.GetLength(0); i++)
                     {
-                        listOfInts.Add(num % 10);
-                        num = num / 10;
+                        for (int j = 0; j < tablicaElementow.GetLength(1); j++)
+                        {
+                            if (j == 0)
+                            {
+                                Console.Write($"\n\tPodaj element numer - {i + 1}:\t");
+
+                                tablicaElementow[i, j] = int.Parse(Console.ReadLine());
+                            }
+                            else
+                            {
+                                tablicaElementow[i, j] = mdSumaPodzielnikow(tablicaElementow[i, j - 1]);
+                            }
+                        }
                     }
-                    listOfInts.Reverse();
-                    return listOfInts.ToArray();
+
+                    Console.Write("\n\tWYNIKI OBLICZEN: \n");
+                    Console.Write("\n\t  Podana liczba\tSuma podielnikow");
+                    Console.Write("\n\t  _____________\t________________");
+
+
+                    for (int x = 0; x < tablicaElementow.GetLength(0); x++)
+                    {
+                        Console.Write("\n\n");
+                        for (int y = 0; y < tablicaElementow.GetLength(1); y++)
+                        {
+                            Console.Write("\t\t" + tablicaElementow[x, y]);
+                        }
+                        Console.Write("\n\n");
+                    }
+
+                }
+
+                bool IsArmstrongNumber(uint number)
+                {
+                    var digits = SplitNumber(number);
+                    var sum = 0u;
+                    var p = (uint)digits.Length;
+                    foreach (var digit in digits)
+                    {
+                        sum += Power(digit, p);
+                    }
+
+                    return sum == number;
+                }
+
+                uint Power(uint x, uint y)
+                {
+                    return y == 0
+                        ? 1
+                        : x * Power(x, y - 1);
+                }
+
+                uint[] SplitNumber(uint n)
+                {
+                    var result = new uint[0];
+                    int i = 0;
+                    while (n > 0)
+                    {
+                        Array.Resize(ref result, i + 1);
+                        result[i] = n % 10;
+                        n = n / 10;
+                        i++;
+                    }
+
+                    Array.Reverse(result);
+                    return result;
                 }
 
                 static int mdSumaPodzielnikow(int num)
                 {
                     int sum = 0;
+                    Console.Write($"\tPodzielniki liczby {num}: ");
                     for (int a = 1; a <= num; a++)
                     {
                         if (num % a == 0) 
@@ -136,8 +212,7 @@ namespace Practicum_CSharp.Console_.NET_
                         }
                         
                     }
-
-                    Console.Write(";");
+                    Console.Write(";\n");
                     return sum;
                 }
 
