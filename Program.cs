@@ -22,6 +22,7 @@ namespace Practicum_CSharp.Console_.NET_
                 Console.WriteLine("\n\t\t C: Liczba Armstronga");
                 Console.WriteLine("\n\t\t D: Sumy podzielników podanych liczb");
                 Console.WriteLine("\n\t\t E: Slowo - palindrom");
+                Console.WriteLine("\n\t\t F: Liczba wywazona");
                 Console.WriteLine("\n\t\t X: Wyjście z programu");
 
                 //Podpowiedz dla uzytkownika
@@ -174,6 +175,45 @@ namespace Practicum_CSharp.Console_.NET_
                     if (Palindrom(podaneSlowo))
                         Console.WriteLine($"\n\tPodane slowo ({podaneSlowo}) - jest palindormem!\n");
                     else Console.WriteLine($"\n\tPodane slowo ({podaneSlowo}) - NIE jest palindormem!\n");
+                }
+
+                if (mdWybranaFunkcjonalność.Key == ConsoleKey.F)
+                {
+                    Console.Write("\n\n\tWYBRANO: 'E' - Liczba wywazona\n");
+
+                    Console.Write("\n\n\tPodaj liczbe dla sprawdzania:\t");
+
+                    int sprawdzanaLiczba = int.Parse(Console.ReadLine());
+
+                    if(liczbaWywazona(sprawdzanaLiczba))
+                        Console.WriteLine($"\n\tPodane liczba ({sprawdzanaLiczba}) - jest wywazona!\n");
+                    else Console.WriteLine($"\n\tPodane liczba ({sprawdzanaLiczba}) - NIE jest wywazona!\n");
+                }
+
+                bool liczbaWywazona(int Num)
+                {
+                    int pdzParzyste = 0;
+                    int pdzNieparzyste = 0;
+
+                    Console.Write($"\tPodzielniki liczby {Num}: ");
+                    for (int a = 1; a <= Num; a++)
+                    {
+                        if (Num % a == 0)
+                        {
+                            Console.Write(" {0}", a);
+
+                            if(a % 2 == 0)
+                                pdzParzyste++;
+                            else pdzNieparzyste++;
+                        }
+
+                    }
+                    Console.Write(";\n");
+
+                    if (pdzParzyste == pdzNieparzyste)
+                        return true;
+                    else return false;
+                        
                 }
 
                 static bool Palindrom(string s)
