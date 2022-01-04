@@ -21,6 +21,7 @@ namespace Practicum_CSharp.Console_.NET_
                 Console.WriteLine("\n\t\t B: Liczby zaprzyjaźnione");
                 Console.WriteLine("\n\t\t C: Liczba Armstronga");
                 Console.WriteLine("\n\t\t D: Sumy podzielników podanych liczb");
+                Console.WriteLine("\n\t\t E: Slowo - palindrom");
                 Console.WriteLine("\n\t\t X: Wyjście z programu");
 
                 //Podpowiedz dla uzytkownika
@@ -151,7 +152,6 @@ namespace Practicum_CSharp.Console_.NET_
                     Console.Write("\n\t  Podana liczba\tSuma podielnikow");
                     Console.Write("\n\t  _____________\t________________");
 
-
                     for (int x = 0; x < tablicaElementow.GetLength(0); x++)
                     {
                         Console.Write("\n\n");
@@ -162,6 +162,27 @@ namespace Practicum_CSharp.Console_.NET_
                         Console.Write("\n\n");
                     }
 
+                }
+
+                if (mdWybranaFunkcjonalność.Key == ConsoleKey.E)
+                {
+                    Console.Write("\n\n\tWYBRANO: 'E' - Czy podane slowo jest PALINROMEM\n");
+
+                    string podaneSlowo;
+                    Console.Write("\n\tPodaj slowo dla sprawdzania: ");
+                    podaneSlowo = Console.ReadLine();
+                    if (Palindrom(podaneSlowo))
+                        Console.WriteLine($"\n\tPodane slowo ({podaneSlowo}) - jest palindormem!\n");
+                    else Console.WriteLine($"\n\tPodane slowo ({podaneSlowo}) - NIE jest palindormem!\n");
+                }
+
+                static bool Palindrom(string s)
+                {
+                    for (int i = 0; i < s.Length / 2; i++)
+
+                        if (s[i] != s[s.Length - i - 1])
+                            return false;
+                    return true;
                 }
 
                 bool IsArmstrongNumber(uint number)
